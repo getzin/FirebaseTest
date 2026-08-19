@@ -1,6 +1,8 @@
 function App() {
   return (
-    <h1>Firebase Test</h1>
+    <h1 className="text-4xl font-bold text-center">
+      Firebase Test
+    </h1>
   )
 }
 
