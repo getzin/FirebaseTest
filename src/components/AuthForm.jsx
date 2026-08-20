@@ -1,25 +1,11 @@
 import { useState } from "react";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import { auth } from "../firebase/config";
+import { useAuth } from "../context/useAuth";
 
 function AuthForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  async function register() {
-    const result = await createUserWithEmailAndPassword(auth, email, password);
-
-    console.log(result.user);
-  }
-
-  async function login() {
-    const result = await signInWithEmailAndPassword(auth, email, password);
-
-    console.log(result.user);
-  }
+  const { register, login } = useAuth();
 
   return (
     <div>
@@ -39,8 +25,8 @@ function AuthForm() {
         onChange={(event) => setPassword(event.target.value)}
       />
 
-      <button onClick={login}>Login</button>
-      <button onClick={register}>Registrieren</button>
+      <button onClick={() => login(email, password)}>Login</button>
+      <button onClick={() => register(email, password)}>Registrieren</button>
     </div>
   );
 }
