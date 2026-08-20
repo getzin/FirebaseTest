@@ -5,7 +5,7 @@ function AuthForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { register, login, error } = useAuth();
+  const { register, login, error, loading } = useAuth();
 
   return (
     <div>
@@ -25,8 +25,12 @@ function AuthForm() {
         onChange={(event) => setPassword(event.target.value)}
       />
 
-      <button onClick={() => login(email, password)}>Login</button>
-      <button onClick={() => register(email, password)}>Registrieren</button>
+      <button onClick={() => login(email, password)} disabled={loading}>
+        {loading ? "Login..." : "Login"}
+      </button>
+      <button onClick={() => register(email, password)} disabled={loading}>
+        {loading ? "Registrieren..." : "Registrieren"}
+      </button>
       {error && <p>{error}</p>}
     </div>
   );
