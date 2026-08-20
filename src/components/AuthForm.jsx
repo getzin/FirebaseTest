@@ -5,7 +5,7 @@ function AuthForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { register, login, error, loading } = useAuth();
+  const { register, login, loginWithGoogle, error, loading } = useAuth();
 
   return (
     <div>
@@ -30,6 +30,9 @@ function AuthForm() {
       </button>
       <button onClick={() => register(email, password)} disabled={loading}>
         {loading ? "Registrieren..." : "Registrieren"}
+      </button>
+      <button onClick={loginWithGoogle} disabled={loading}>
+        {loading ? "Google Login..." : "Mit Google anmelden"}
       </button>
       {error && <p>{error}</p>}
     </div>

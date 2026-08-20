@@ -3,8 +3,10 @@ import { auth } from "../firebase/config";
 import { AuthContext } from "./AuthContext";
 import {
   createUserWithEmailAndPassword,
+  GoogleAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
 } from "firebase/auth";
 
@@ -51,9 +53,24 @@ export function AuthProvider({ children }) {
     }
   }
 
+  async function loginWithGoogle() {
+    setLoading(true);
+
+    const provider = new GoogleAuthProvider();
+
+    try {
+      await signInWithPopup(auth, provider);
+      setError(null);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <AuthContext.Provider
-      value={{ user, register, login, logout, error, loading }}
+      value={{ user, register, login, loginWithGoogle, logout, error, loading }}
     >
       {children}
     </AuthContext.Provider>
