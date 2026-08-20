@@ -10,6 +10,7 @@ import {
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -24,15 +25,25 @@ export function AuthProvider({ children }) {
   }
 
   async function register(email, password) {
-    await createUserWithEmailAndPassword(auth, email, password);
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      setError(null);
+    } catch (error) {
+      setError(error.message);
+    }
   }
 
   async function login(email, password) {
-    await signInWithEmailAndPassword(auth, email, password);
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      setError(null);
+    } catch (error) {
+      setError(error.message);
+    }
   }
 
   return (
-    <AuthContext.Provider value={{ user, register, login, logout }}>
+    <AuthContext.Provider value={{ user, register, login, logout, error }}>
       {children}
     </AuthContext.Provider>
   );
